@@ -31,28 +31,28 @@ Flags:
 ### Examples
 
 #### Plain 2 min 30 sec timer:
-    ```sh
-    timer -time 2m30s
-    ```
+```sh
+timer -time 2m30s
+```
 
 #### Two 10 min sessions with a 5 min break:
-    ```sh
-    timer -time 10m,5m,10m
-    ```
-    or
-    ```sh
-    timer -time "10m, 5m, 10m"
-    ```
-    or might as well
-    ```sh
-    timer -time "10m , 5m" -time 10m
-    ```
+```sh
+timer -time 10m,5m,10m
+```
+> or
+```sh
+timer -time "10m, 5m, 10m"
+```
+> or might as well
+```sh
+timer -time "10m , 5m" -time 10m
+```
 
 #### Easy pomodoro timer:
-    ```sh
-    timer -time 25m,5m,25m,5m,25m,5m,25m
-    ```
-    or use it as an alias
-    ```bash
-    alias pomodoro="timer -time 25m,5m,25m,5m,25m,5m,25m"
-    ```
+```sh
+timer -time 25m,5m,25m,5m,25m,5m,25m
+```
+> or use it as an alias
+```bash
+alias pomodoro="timer -time 25m,5m,25m,5m,25m,5m,25m"
+```
