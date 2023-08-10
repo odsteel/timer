@@ -3,7 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
+	"os/signal"
 	"path"
 	"strings"
 	"time"
@@ -26,6 +28,48 @@ func init() {
 }
 
 func main() {
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
+
+	tick := time.Tick(50 * time.Millisecond)
+
+	var stdin input
+	stdin.init()
+	defer stdin.restore()
+
+	var stdout output
+	stdout.init()
+	defer stdout.restore()
+
+	for i, timer := range timeFlag {
+		remaining := timer
+		end := time.Now().Add(remaining)
+		paused := true
+
+		for t := <-tick; t.Before(end); t = <-tick {
+			select {
+			case <-interrupt:
+				return
+			default:
+				buf, err := io.ReadAll(os.Stdin)
+				if err != nil {
+					fmt.Fprintln(os.Stderr, err)
+					return
+				}
+				for _, key := range string(buf) {
+					if key == ' ' {
+						paused = !paused
+					}
+				}
+			}
+			if paused {
+				end = t.Add(remaining)
+			} else {
+				remaining = end.Sub(t)
+			}
+			render(i+1, len(timeFlag), timer, remaining, paused)
+		}
+	}
 }
 
 func usage() {
