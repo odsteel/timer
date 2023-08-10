@@ -9,7 +9,7 @@ Compile with `go build`.
 #### Add to .bashrc:
 ```bash
 export TIMER_PATH="$HOME/path/to/executable"
-if [ -d $TIMER_PATH= ]; then
+if [ -d $TIMER_PATH ]; then
     export PATH="$PATH:$TIMER_PATH"
 fi
 ```
