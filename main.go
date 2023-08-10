@@ -10,27 +10,18 @@ import (
 )
 
 const (
-	stepsUsage = "Time intervals per round as a comma-separated list."
-	repsUsage  = "Number of rounds."
+	timeUsage   = "Time intervals as a comma-separated list."
+	timeDefault = 5 * time.Minute
 )
 
-const (
-	stepsDefault = 5 * time.Minute
-	repsDefault  = 1
-)
-
-var (
-	stepsFlag interval
-	repsFlag  uint
-)
+var timeFlag interval
 
 func init() {
-	flag.Var(&stepsFlag, "steps", stepsUsage)
-	flag.UintVar(&repsFlag, "reps", repsDefault, repsUsage)
+	flag.Var(&timeFlag, "time", timeUsage)
 	flag.Usage = usage
 	flag.Parse()
-	if len(stepsFlag) == 0 {
-		stepsFlag = append(stepsFlag, stepsDefault)
+	if len(timeFlag) == 0 {
+		timeFlag = append(timeFlag, timeDefault)
 	}
 }
 
@@ -40,10 +31,8 @@ func main() {
 func usage() {
 	var msg strings.Builder
 	fmt.Fprintf(&msg, "\nUsage: %s [flags]\n\n", path.Base(os.Args[0]))
-	fmt.Fprintf(&msg, "\t-steps\n\t\t%s\n\t\tDefault value: %s\n\n",
-		stepsUsage, stepsDefault)
-	fmt.Fprintf(&msg, "\t-steps\n\t\t%s\n\t\tDefault value: %d\n\n",
-		repsUsage, repsDefault)
+	fmt.Fprintf(&msg, "\t-time\n\t\t%s\n\t\tDefault value: %s\n\n",
+		timeUsage, timeDefault)
 	fmt.Print(msg.String())
 	os.Exit(1)
 }
